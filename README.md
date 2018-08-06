@@ -9,4 +9,5 @@ Automatic robot to order dinner on mei_can
 
 
 v1 selenium 实现：由于变更维护的原因，目前已经停止维护
+
 v2 requests实现：使用美餐的接口进行点餐，避免美餐UI维护，导致功能无法实现。
