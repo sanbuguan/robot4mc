@@ -22,6 +22,7 @@ class url_config:
     query_url='https://meican.com/preorder/api/v2.1/calendaritems/list?withOrderDetail=false&beginDate=%s&endDate=%s'
     order_info_url='https://meican.com/preorder/api/v2.1/orders/show'
 
-
+# del dinner
+    del_url='https://meican.com/preorder/api/v2.1/orders/delete'
 
 

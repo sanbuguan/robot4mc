@@ -13,7 +13,7 @@ meican_logfile='log'+os.sep+toollib.datenow()+'-ordermeican.log'
 # CRITICAL > ERROR > WARNING > INFO > DEBUG > NOTSET
 logging.basicConfig(level=logging.INFO, \
                 format='%(asctime)s [file:%(filename)-10s][line:%(lineno)-5d] %(levelname)s %(message)s', \
-                datefmt='%a, %d %b %Y %H:%M:%S', \
+                datefmt='%a, %Y-%m-%d %H:%M:%S', \
                 filename=meican_logfile, \
                 filemode='a+')
 console = logging.StreamHandler()

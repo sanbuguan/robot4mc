@@ -103,10 +103,10 @@ class getalllists:
         left_tab_content=self.query_session.get(tab_url).text
         time.sleep(0.5)
         logging.info('left tab url -> %s'%(tab_url))
-        logging.info(left_tab_content)
+        #logging.info(left_tab_content)
         tab_json=json.loads(left_tab_content)
 
-        logging.info(tab_json)
+        #logging.info(tab_json)
         for i in range(0,len(tab_json['dateList'][0]['calendarItemList'])):
             if tab_json['dateList'][0]['calendarItemList'][i]['title'] == '分期乐（深圳）晚餐':
                 self.tab_location=i
@@ -216,10 +216,13 @@ class getalllists:
             dinner_name = list(dinnerlist.keys())[random_id]
             logging.info('fully random dinner is %s' %(dinner_name))
 
-        #菜品不在里面，可能是下架了，就直接报错
+        #菜品不在里面，可能是下架了，就随机点一个
         if (not (dinner_name in dinnerlist)):
             logging.error('%s is not exist, will remove'%(dinner_name))
-            raise
+            
+            random_id = random.randint(0, len(dinnerlist) - 1)
+            dinner_name = list(dinnerlist.keys())[random_id]
+            logging.info('fully random dinner is %s' %(dinner_name))
 
 
         return dinnerlist[dinner_name]['dinner_id']

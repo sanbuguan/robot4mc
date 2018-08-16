@@ -45,9 +45,9 @@ if __name__ == '__main__':
 
     #正式进行点餐
     allret = {}
-    for item in order_user_list:
+    for order_item in order_user_list:
         try:
-            plan_action=meican_plan_action(item)
+            plan_action=meican_plan_action(order_item)
             ret=plan_action.do()
 
             for item in ret:
@@ -57,9 +57,12 @@ if __name__ == '__main__':
                 logging.info('%s -> %s -> %s -> %s'%(toollib.date_now(),ret[item]['name'],ret[item]['dinner_name'],ret[item]['result']))
 
         except Exception as e:
-            logging.error('%s.conf diner fail '%(item))
+            logging.error('%s.conf diner fail '%(order_item))
             logging.error(e)
             logging.error(traceback.print_exc())
 
-    for item in allret:
-        logging.info('<**> %s -> %s -> %s -> %s' % (toollib.date_now(), allret[item]['name'], allret[item]['dinner_name'], allret[item]['result']))
+    file_object = open('result.log', 'w',encoding='utf-8')
+    for ret_item in allret:
+        file_object.write("%s -> %s -> %s -> %s\n"%(toollib.date_now(),allret[ret_item]['name'],allret[ret_item]['dinner_name'],allret[ret_item]['result']))
+        logging.info('<**> %s -> %s -> %s -> %s' % (toollib.date_now(), allret[ret_item]['name'], allret[ret_item]['dinner_name'], allret[ret_item]['result']))
+    file_object.close()
