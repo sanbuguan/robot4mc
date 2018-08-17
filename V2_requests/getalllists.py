@@ -155,12 +155,8 @@ class getalllists:
     #查询对应的订餐信息
     def check_dinner_info(self,order_date):
         try:
-            query_url=url_config.query_url%(order_date,order_date)
-            logging.info(query_url)
-            query_content=self.query_session.get(query_url).text
-            query_content=json.loads(query_content)
-            logging.info(self.tab_location)
-            order_query_id=query_content['dateList'][0]['calendarItemList'][self.tab_location]['corpOrderUser']['uniqueId']
+
+            order_query_id=self.get_order_query_id(order_date)
 
             order_data={'uniqueId':order_query_id,'type':'CORP_ORDER','progressMarkdownSupport':'true'}
             order_info=self.query_session.post(url_config.order_info_url,order_data).text
@@ -175,6 +171,26 @@ class getalllists:
             logging.error(e)
             #logging.error(traceback.print_exc())
             return ''
+    #得到每天点餐的编号
+    def get_order_query_id(self,order_date):
+            query_url=url_config.query_url%(order_date,order_date)
+            logging.info(query_url)
+            query_content=self.query_session.get(query_url).text
+            query_content=json.loads(query_content)
+            logging.info(self.tab_location)
+            order_query_id=query_content['dateList'][0]['calendarItemList'][self.tab_location]['corpOrderUser']['uniqueId']
+            return order_query_id
+
+    #删除点餐的信息
+    def del_order_dinner(self):
+            order_date=toollib.date_now()
+            order_query_id=self.get_order_query_id(order_date)
+
+            query_url=url_config.del_url
+            post_data={'uniqueId':order_query_id,'type':'CORP_ORDER','restoreCart':'false'}
+            order_info=self.query_session.post(query_url,post_data).text
+            order_info=json.loads(order_info)
+            return order_info['status']
 
 
     #根据ID进行点餐的接口
