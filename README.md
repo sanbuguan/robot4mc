@@ -38,11 +38,15 @@ positional arguments:
   username              meican username
 
 optional arguments:
-  -h, --help            show this help message and exit
-  -c, --check           meican order check
-  -o ORDER, --order ORDER
+
+-h, --help            show this help message and exit
+
+-c, --check           meican order check
+
+-o ORDER, --order ORDER
                         meican order dinner
-  -d, --delete          meican order del
+
+-d, --delete          meican order del
 
 
 
