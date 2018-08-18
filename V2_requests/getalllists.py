@@ -7,6 +7,7 @@ import pickle
 import traceback
 import random
 import time
+import argparse
 
 import requests
 #from PIL import Image
@@ -274,20 +275,48 @@ class getalllists:
 
 if __name__ == '__main__':
 
-    if (len(sys.argv) != 3):
-        print('usage : cmd username dinnername')
-        exit()
-    # 单个人点餐
-    username=sys.argv[1]
-    dinnername=sys.argv[2]
-    userinfo=toollib.getuserinfo(username)
-    logging.info(userinfo)
-    meican_session=getalllists(userinfo)
-    meican_session.generate_dinnerlist()
-    ret=meican_session.order_dinner_by_name(dinnername)
-    logging.info(ret)
-    ret=meican_session.check_dinner_info(toollib.date_now())
-    logging.info('%s -> %s -> %s'%(toollib.date_now(),meican_session.userinfo['name'],ret))
+
+    parser = argparse.ArgumentParser(description='meican order cmd line ...')
+    parser.add_argument('-c','--check', action='store_true',help='meican order check')
+    parser.add_argument('-o','--order',help='meican order dinner')
+    parser.add_argument('-d','--delete', action='store_true',help='meican order del')
+    parser.add_argument('username', help='meican username')
+
+    if len(sys.argv) == 1:
+        parser.print_help(sys.stderr)
+        sys.exit(1)
+    args = parser.parse_args()
+
+    mc_username=args.username
+
+    if (args.delete != False ):
+        userinfo = toollib.getuserinfo(mc_username)
+        logging.info(userinfo)
+        meican_session=getalllists(userinfo)
+        meican_session.login()
+        meican_session.get_left_id()
+        ret=meican_session.del_order_dinner()
+        logging.info(ret)
+
+    if (args.order != None):
+        dinnername=args.order
+        userinfo = toollib.getuserinfo(mc_username)
+        logging.info(userinfo)
+        meican_session=getalllists(userinfo)
+        meican_session.generate_dinnerlist()
+        ret=meican_session.order_dinner_by_name(dinnername)
+        logging.info(ret)
+        ret=meican_session.check_dinner_info(toollib.date_now())
+        logging.info('%s -> %s -> %s'%(toollib.date_now(),meican_session.userinfo['name'],ret))
+
+    if (args.check != False):
+        userinfo = toollib.getuserinfo(mc_username)
+        logging.info(userinfo)
+        meican_session=getalllists(userinfo)
+        meican_session.login()
+        meican_session.get_left_id()
+        meican_session.check_dinner_info(toollib.date_now())
+
 
 
 
