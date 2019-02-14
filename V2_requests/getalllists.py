@@ -109,7 +109,7 @@ class getalllists:
 
         #logging.info(tab_json)
         for i in range(0,len(tab_json['dateList'][0]['calendarItemList'])):
-            if tab_json['dateList'][0]['calendarItemList'][i]['title'] == '分期乐（深圳）晚餐':
+            if tab_json['dateList'][0]['calendarItemList'][i]['title'] == 'XXXXX晚餐':
                 self.tab_location=i
         logging.info('%s left tab id is %s'%(self.userinfo['name'],self.tab_location))
 
